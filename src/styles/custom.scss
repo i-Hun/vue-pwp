@@ -1,0 +1,16 @@
+// Import Bulma's core
+@import "~bulma/sass/utilities/_all";
+
+// Set your colors
+// $primary: #f74843;
+// $link: $primary;
+// $primary-invert: findColorInvert($primary);
+// $is-primary: #f74843;
+
+$body-size: 18px;   
+
+
+
+// Import Bulma and Buefy styles
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
