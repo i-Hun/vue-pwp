@@ -3,8 +3,6 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
 import Main from './components/Main.vue';
-import TumblrPosts from './components/TumblrPosts.vue';
-import TumblrPost from './components/TumblrPost.vue';
 
 
 const router = new Router({
@@ -13,16 +11,6 @@ const router = new Router({
 		path: '/',
 		name:'Main',
 		component: Main,
-	},
-	{
-		path: '/posts',
-		name:'TumblrPosts',
-		component: TumblrPosts,
-	},
-	{
-		path: '/posts/:id',
-		name:'TumblrPost',
-		component: TumblrPost,
 	},
  ],
   mode: 'history'
