@@ -87,58 +87,66 @@
 	<div class="posts section content">
 		<b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
 
-		<p v-if="tag || post_id" class="title is-5">
-			<router-link :to="{query: {}}">
-			All posts
-			</router-link>
-
-		</p>
 		<div v-if="$apollo.queries.tumblrPosts.loading">Loading...</div>
 		<div v-else>
 			<div v-if="!post_id">
-			<masonry
-			:cols="{default: 3, 1280: 2, 400: 1}"
-			:gutter="{default: '30px', 700: '15px'}"
-			>
-				<div v-for="post in tumblrPosts.response.posts" class="post-preview">
-					<div v-if="post.type=='text'">
-						<div class="post-title" v-if="post.title">
-							<small>{{formatPostDate(post.date)}}</small>
-							<router-link :to="{query: {post_id: post.id}}">
-							{{ post.title }}
-							</router-link>
-						</div>
-						
-						<div v-if="post.tags && post.tags.length" class="tags" >
-							<span class="tag" v-for="tag in post.tags">
-								<router-link :to="{query: {tag: tag}}">
-									#{{tag}}
+				<p>
+					<a href="http://ihun.tumblr.com/rss" target="_blank">
+						<span class="icon">
+							<i class="mdi mdi-rss-box mdi-24px"></i>
+						</span>
+						Subscribe to new posts
+					</a>
+				</p>
+				<masonry
+				:cols="{default: 3, 1280: 2, 400: 1}"
+				:gutter="{default: '30px', 700: '15px'}"
+				>
+					<div v-for="post in tumblrPosts.response.posts" class="post-preview">
+						<div v-if="post.type=='text'">
+							<div class="post-title" v-if="post.title">
+								<small>{{formatPostDate(post.date)}}</small>
+								<router-link :to="{query: {post_id: post.id}}">
+								{{ post.title }}
 								</router-link>
-							</span>
+							</div>
+							
+							<div v-if="post.tags && post.tags.length" class="tags" >
+								<span class="tag" v-for="tag in post.tags">
+									<router-link :to="{query: {tag: tag}}">
+										{{tag}}
+									</router-link>
+								</span>
+							</div>
+						</div>
+						<div v-else>
+							<a v-bind:href="post.post_url">Пост</a> имеет тип {{post.type}}
 						</div>
 					</div>
-					<div v-else>
-						<a v-bind:href="post.post_url">Пост</a> имеет тип {{post.type}}
-					</div>
-				</div>
-			</masonry>
+				</masonry>
 			</div>
 			<div v-else>
-				<h1 v-if="tumblrPosts.response.posts[0].title" class="title is-spaced">
-					{{ tumblrPosts.response.posts[0].title }}
-				</h1>
-				
-				<div v-html="tumblrPosts.response.posts[0].body"></div>
-				<br>
-				<div v-if="tumblrPosts.response.posts[0].tags && tumblrPosts.response.posts[0].tags.length" class="tags">
-					<span class="tag" v-for="tag in tumblrPosts.response.posts[0].tags">
-						<router-link :to="{query: {tag: tag}}">
-							{{tag}}
-						</router-link>
+				<p class="title is-5">
+					<router-link :to="{query: {}}">
+					All posts
+					</router-link>
+				</p>
+				<div id="selected-post" name="selected-post">
+					<h1 v-if="tumblrPosts.response.posts[0].title" class="title is-spaced">
+						{{ tumblrPosts.response.posts[0].title }}
+					</h1>
 					
-					</span>
+					<div v-html="tumblrPosts.response.posts[0].body"></div>
+					<br>
+					<div v-if="tumblrPosts.response.posts[0].tags && tumblrPosts.response.posts[0].tags.length" class="tags">
+						<span class="tag" v-for="tag in tumblrPosts.response.posts[0].tags">
+							<router-link :to="{query: {tag: tag}}">
+								{{tag}}
+							</router-link>
+						
+						</span>
+					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -148,7 +156,11 @@
 			<div class="content main-block">
 				<div v-if="identifiers">
 					<p class="title is-5">
-						<small @click="identifiers=false"><a>←</a></small>
+						<small @click="identifiers=false">
+							<a class="icon">
+								<i class="mdi mdi-arrow-left mdi-24px"></i>
+							</a>
+						</small>
 						Scientific identifiers
 					</p>
 					<ul>
