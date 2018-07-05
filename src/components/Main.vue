@@ -127,10 +127,6 @@
 				<b-pagination
 					:total="tumblrPosts.response.blog.posts"
 					:current.sync="current"
-					:order="order"
-					:size="size"
-					:simple="isSimple"
-					:rounded="isRounded"
 					:per-page="perPage">
 				</b-pagination>
 			</div>
@@ -178,6 +174,7 @@
 						<li>ResearcherID: <a href="http://www.researcherid.com/rid/N-8410-2015" target="_blank">N-8410-2015</a></li>
 						<li>Scopus AuthorID: <a href="https://www.scopus.com/authid/detail.uri?partnerID=HzOxMe3b&authorId=57195626249&origin=inward" target="_blank">57195626249</a></li>
 						<li><a href="https://scholar.google.ru/citations?user=fz9W8oMAAAAJ&hl=en&oi=sra" target="_blank">Google Scholar</a></li>
+						<li><button @click="identifiers=false">Back</button></li>
 					</ul>
 				</div>
 				<div v-else>
