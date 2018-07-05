@@ -84,7 +84,7 @@
 			</b-tab-item>
 		</b-tabs>
 	</div>
-	<div class="posts section content">
+	<div class="posts section">
 		<b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
 
 		<div v-if="$apollo.queries.tumblrPosts.loading">Loading...</div>
@@ -95,14 +95,14 @@
 						<span class="icon">
 							<i class="mdi mdi-rss-box mdi-24px"></i>
 						</span>
-						Subscribe to new posts
+						<!-- Subscribe to new posts -->
 					</a>
 				</p>
 				<masonry
 				:cols="{default: 3, 1280: 2, 400: 1}"
 				:gutter="{default: '30px', 700: '15px'}"
 				>
-					<div v-for="post in tumblrPosts.response.posts" class="post-preview">
+					<div v-for="post in tumblrPosts.response.posts" class="post-preview content">
 						<div v-if="post.type=='text'">
 							<div class="post-title" v-if="post.title">
 								<small>{{formatPostDate(post.date)}}</small>
@@ -124,6 +124,15 @@
 						</div>
 					</div>
 				</masonry>
+				<b-pagination
+					:total="tumblrPosts.response.blog.posts"
+					:current.sync="current"
+					:order="order"
+					:size="size"
+					:simple="isSimple"
+					:rounded="isRounded"
+					:per-page="perPage">
+				</b-pagination>
 			</div>
 			<div v-else>
 				<p class="title is-5">
@@ -205,7 +214,9 @@
 				isFullPage: true,
 				conferences: conferences,
 				publications: publications,
-				identifiers: false
+				identifiers: false,
+				current: 1,
+				perPage: 20,
 			}
 		},
 		apollo: {
@@ -216,7 +227,8 @@
 						path: `/posts`,
 						api_key: TUMBLR_KEY,
 						tag: this.tag,
-						id: this.post_id
+						id: this.post_id,
+						offset: this.offset
 					}
 				},
 				watchLoading(isLoading, countModifier) {
@@ -260,6 +272,10 @@
 			},
 			post_id() {
 				return this.$route.query.post_id ? this.$route.query.post_id : ""
+			},
+			offset() {
+				const curr = (this.current - 1) * 20;
+				return curr;
 			}
 		}
 	}

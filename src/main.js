@@ -61,6 +61,8 @@ const restLink = new RestLink({
             //     return { __typename: "TumblrResponse", ...el }
             // });
             data.response["__typename"] = "TumblrResponse";
+            data.response.blog["__typename"] = "TumblrResponse";
+
             data.response.posts = data.response.posts.map(function(post) {
                 return { __typename: "TumblrPost", ...post }
             });

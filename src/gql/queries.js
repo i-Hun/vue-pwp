@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 const QUERY_TUMBLR_POSTS = gql`
 query{
-    tumblrPosts(api_key: $api_key, tag: $tag, id:$id) @rest(type: "TumblrPosts", path: "/posts?api_key=:api_key&tag=:tag&id=:id") {
+    tumblrPosts(api_key: $api_key, tag: $tag, id:$id, offset:$offset) @rest(type: "TumblrPosts", path: "/posts?api_key=:api_key&tag=:tag&id=:id&offset=:offset") {
         response {
             posts {
             	id,
@@ -13,6 +13,9 @@ query{
                 post_url,
                 tags,
                 date
+            },
+            blog {
+              posts
             }
         }
     }
