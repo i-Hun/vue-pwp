@@ -82,113 +82,147 @@
 					<li>Winner of the All-Russian Olympiad of schoolchildren on Social theory at regional stage, 2010.</li>
 				</ul>
 			</b-tab-item>
+			<b-tab-item label="👨🏼‍🏫 My courses" class="content">
+				<ul>
+					<div class="year-div">2018-2019</div>
+					<li>
+						Data Analysis with Python (Master’s programme; St. Petersburg School of Social Sciences and Humanities; programme "Modern Social Analysis"; 1 year, 4 module)
+					</li>
+					<li>
+						Social Media Analytics (Bachelor’s programme; St. Petersburg School of Social Sciences and Humanities; programme "Sociology"; 4 year, 1, 2 module and 3 year, 1, 2 module)
+					</li>
+					<li>
+						Applications and Practice of Data Science (Minor; St.Petersburg School of Economics and Management; 3, 4 module)
+					</li>
+					<li>
+						<router-link :to="{name: 'HSESummerSchool2018PythonCourse'}">Python for Social Science: Introduction to Programming Language</router-link> at HSE Summer school 2018
+					</li>
+					<div class="year-div">2017-2018</div>
+					<li>
+						Applications and Practice of Data Science (Bachelor’s programme; St. Petersburg School of Social Sciences and Humanities; 3 year, 3, 4 module)
+					</li>
+					<li>
+						Practical Programming and Data Analysis in Special Environments (Master’s programme; St.Petersburg School of Economics and Management; programme "Big Data Analysis for Business, Economy, and Society"; 1 year, 1, 2 module)
+					</li>
+					<li>
+						Social Issues-2 (Bachelor’s programme; St. Petersburg School of Social Sciences and Humanities; programme "Sociology"; 3 year, 3, 4 module)
+					</li>
+				</ul>
+			</b-tab-item>
 		</b-tabs>
 	</div>
-	<div class="posts section">
-		<b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
 
-		<div v-if="$apollo.queries.tumblrPosts.loading">Loading...</div>
-		<div v-else>
-			<div v-if="!post_id">
-				<p>
+	<div class="posts section">
+		<div class="main-block">
+			<b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
+
+			<div v-if="$apollo.queries.tumblrPosts.loading">Loading...</div>
+			<div v-else>
+				<p v-if="post_id || tag" class="title is-5">
 					<a href="http://ihun.tumblr.com/rss" target="_blank">
 						<span class="icon">
 							<i class="mdi mdi-rss-box mdi-24px"></i>
 						</span>
-						<!-- Subscribe to new posts -->
 					</a>
-				</p>
-				<masonry
-				:cols="{default: 3, 1280: 2, 400: 1}"
-				:gutter="{default: '30px', 700: '15px'}"
-				>
-					<div v-for="post in tumblrPosts.response.posts" class="post-preview content">
-						<div v-if="post.type=='text'">
-							<div class="post-title" v-if="post.title">
-								<small>{{formatPostDate(post.date)}}</small>
-								<router-link :to="{query: {post_id: post.id}}">
-								{{ post.title }}
-								</router-link>
-							</div>
-							
-							<div v-if="post.tags && post.tags.length" class="tags" >
-								<span class="tag" v-for="tag in post.tags">
-									<router-link :to="{query: {tag: tag}}">
-										{{tag}}
-									</router-link>
-								</span>
-							</div>
-						</div>
-						<div v-else>
-							<a v-bind:href="post.post_url">Пост</a> имеет тип {{post.type}}
-						</div>
-					</div>
-				</masonry>
-				<b-pagination
-					:total="tumblrPosts.response.blog.posts"
-					:current.sync="current"
-					:per-page="perPage">
-				</b-pagination>
-			</div>
-			<div v-else>
-				<p class="title is-5">
 					<router-link :to="{query: {}}">
 					All posts
 					</router-link>
 				</p>
-				<div id="selected-post" name="selected-post">
-					<h1 v-if="tumblrPosts.response.posts[0].title" class="title is-spaced">
-						{{ tumblrPosts.response.posts[0].title }}
-					</h1>
-					
-					<div v-html="tumblrPosts.response.posts[0].body"></div>
-					<br>
-					<div v-if="tumblrPosts.response.posts[0].tags && tumblrPosts.response.posts[0].tags.length" class="tags">
-						<span class="tag" v-for="tag in tumblrPosts.response.posts[0].tags">
-							<router-link :to="{query: {tag: tag}}">
-								{{tag}}
-							</router-link>
+				<div v-if="!post_id">
+					<p v-if="!tag">
+						<a href="http://ihun.tumblr.com/rss" target="_blank">
+							<span class="icon">
+								<i class="mdi mdi-rss-box mdi-24px"></i>
+							</span>
+						</a>
+					</p>
+					<masonry
+					:cols="{default: 3, 1280: 2, 400: 1}"
+					:gutter="{default: '30px', 700: '15px'}"
+					>
+						<div v-for="post in tumblrPosts.response.posts" class="post-preview content">
+							<div v-if="post.type=='text'">
+								<div class="post-title" v-if="post.title">
+									<small>
+										<b-tooltip position="is-right" :label="`${post.date}`">
+											<time :datetime="post.date">{{formatPostDate(post.date)}}</time>
+										</b-tooltip>
+									</small>
+									<router-link :to="{query: {post_id: post.id}}">
+									{{ post.title }}
+									</router-link>
+								</div>
+								
+								<div v-if="post.tags && post.tags.length" class="tags" >
+									<span class="tag" v-for="tag in post.tags">
+										<router-link :to="{query: {tag: tag}}">
+											{{tag}}
+										</router-link>
+									</span>
+								</div>
+							</div>
+							<div v-else>
+								<a v-bind:href="post.post_url">Пост</a> имеет тип {{post.type}}
+							</div>
+						</div>
+					</masonry>
+					<b-pagination
+						:total="tumblrPosts.response.blog.posts"
+						:current.sync="current"
+						:per-page="perPage">
+					</b-pagination>
+				</div>
+				<div v-else>
+					<div id="selected-post" name="selected-post" class="content">
+						<h1 v-if="tumblrPosts.response.posts[0].title" class="title is-spaced">
+							{{ tumblrPosts.response.posts[0].title }}
+						</h1>
 						
-						</span>
+						<div v-html="tumblrPosts.response.posts[0].body"></div>
+						<br>
+						<div v-if="tumblrPosts.response.posts[0].tags && tumblrPosts.response.posts[0].tags.length" class="tags">
+							<span class="tag" v-for="tag in tumblrPosts.response.posts[0].tags">
+								<router-link :to="{query: {tag: tag}}">
+									{{tag}}
+								</router-link>
+							
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 <section class="section contacts" id="contacts">
-	<div class="columns">
-		<div class="column">
-			<div class="content main-block">
-				<div v-if="identifiers">
-					<p class="title is-5">
-						<small @click="identifiers=false">
-							<a class="icon">
-								<i class="mdi mdi-arrow-left mdi-24px"></i>
-							</a>
-						</small>
-						Scientific identifiers
-					</p>
-					<ul>
-						<li>SPIN-RSCI: <a href="https://elibrary.ru/author_profile.asp?authorid=864928" target="_blank">7196-6711</a></li>
-						<li>ORCID: <a href="http://orcid.org/0000-0002-0892-8212" target="_blank">0000-0002-0892-8212</a></li>
-						<li>ResearcherID: <a href="http://www.researcherid.com/rid/N-8410-2015" target="_blank">N-8410-2015</a></li>
-						<li>Scopus AuthorID: <a href="https://www.scopus.com/authid/detail.uri?partnerID=HzOxMe3b&authorId=57195626249&origin=inward" target="_blank">57195626249</a></li>
-						<li><a href="https://scholar.google.ru/citations?user=fz9W8oMAAAAJ&hl=en&oi=sra" target="_blank">Google Scholar</a></li>
-						<li><button @click="identifiers=false">Back</button></li>
-					</ul>
-				</div>
-				<div v-else>
-					<p class="title is-5">Contacts</p>
-					<ul>
-						<li>Email: <a href="mailto:nagornyy.o@gmail.com" target="_blank">nagornyy.o@gmail.com</a></li>
-						<li>VK: <a href="https://vk.com/n.oleg" target="_blank">vk.com/n.oleg</a></li>
-						<li>Telegram: <a href="https://t.me/i_Hun" target="_blank">@i_Hun</a></li>
-						<li>Skype: <a href="skype:nagornyy_oleg?add" target="_blank">nagornyy_oleg</a></li>
-						<li>HSE: <a href="https://www.hse.ru/en/staff/oleg" target="_blank">www.hse.ru/en/staff/oleg</a></li>
-						<li @click="identifiers=true"><a>Scientific identifiers</a></li>
-					</ul>
-				</div>
-			</div>
+	<div class="content main-block">
+		<div v-if="identifiers">
+			<p class="title is-5">
+				<small @click="identifiers=false">
+					<a class="icon">
+						<i class="mdi mdi-arrow-left mdi-24px"></i>
+					</a>
+				</small>
+				Scientific identifiers
+			</p>
+			<ul>
+				<li>SPIN-RSCI: <a href="https://elibrary.ru/author_profile.asp?authorid=864928" target="_blank">7196-6711</a></li>
+				<li>ORCID: <a href="http://orcid.org/0000-0002-0892-8212" target="_blank">0000-0002-0892-8212</a></li>
+				<li>ResearcherID: <a href="http://www.researcherid.com/rid/N-8410-2015" target="_blank">N-8410-2015</a></li>
+				<li>Scopus AuthorID: <a href="https://www.scopus.com/authid/detail.uri?partnerID=HzOxMe3b&authorId=57195626249&origin=inward" target="_blank">57195626249</a></li>
+				<li><a href="https://scholar.google.ru/citations?user=fz9W8oMAAAAJ&hl=en&oi=sra" target="_blank">Google Scholar</a></li>
+				<li><button @click="identifiers=false">Back</button></li>
+			</ul>
+		</div>
+		<div v-else>
+			<p class="title is-5">Contacts</p>
+			<ul>
+				<li>Email: <a href="mailto:nagornyy.o@gmail.com" target="_blank">nagornyy.o@gmail.com</a></li>
+				<li>VK: <a href="https://vk.com/n.oleg" target="_blank">vk.com/n.oleg</a></li>
+				<li>Telegram: <a href="https://t.me/i_Hun" target="_blank">@i_Hun</a></li>
+				<li>Skype: <a href="skype:nagornyy_oleg?add" target="_blank">nagornyy_oleg</a></li>
+				<li>HSE: <a href="https://www.hse.ru/en/staff/oleg" target="_blank">www.hse.ru/en/staff/oleg</a></li>
+				<li @click="identifiers=true"><a>Scientific identifiers</a></li>
+			</ul>
 		</div>
 	</div>
 </section>
@@ -301,7 +335,7 @@
 
 @media only screen and (min-width: 1215px)
 	.main-block
-		padding: 10px 20px
+		padding: 10px 2rem
 
 .regalia
 	box-shadow: 1px -8px 5px 0 rgba(0,0,0,0.1)
@@ -339,28 +373,12 @@
 	.main-header
 		background-position: center
 
-.content a, .card a
-	&:link
-		border-bottom: 1px solid rgba(0,137,255,.3)
-		transition: color .3s ease,border-color .3s ease
-
-	&:visited
-		color: #b40eb4
-		border-color: rgba(180,14,180,.3)
-
-	&:hover
-		color: #f41224
-		border-color: rgba(244,18,36,.3)
-
-	.navbar-burger span:nth-child(3)
-		top: calc(50% + 4px)
-
 
 .article-header, .article-content
 	padding: 20px
 
 .post-preview
-	margin-bottom: 40px
+	margin-bottom: 50px
 
 	.post-title
 		margin-bottom: 0px
@@ -369,4 +387,6 @@
 		padding: 0
 		margin: 0
 		background-color: transparent
+	time
+		font-size: 0.75rem
 </style>

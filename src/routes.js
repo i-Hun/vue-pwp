@@ -3,7 +3,7 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
 import Main from './components/Main.vue';
-
+import HSESummerSchool2018PythonCourse from './components/HSESummerSchool2018PythonCourse.vue';
 
 const router = new Router({
  routes: [
@@ -12,8 +12,13 @@ const router = new Router({
 		name:'Main',
 		component: Main,
 	},
+ 	{
+		path: '/courses/HSE_school_2018_python',
+		name:'HSESummerSchool2018PythonCourse',
+		component: HSESummerSchool2018PythonCourse,
+	},
  ],
-  mode: 'history'
+  mode: 'hash'
 })
 
 router.beforeResolve((to, from, next) => {
