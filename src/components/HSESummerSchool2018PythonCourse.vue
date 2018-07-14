@@ -33,7 +33,13 @@
 	
 </template>
 
-<style scoped\>
+<style scoped>
+	.section {
+		background-image: url("../assets/img/patterns/snakes.png");
+		background-repeat: repeat;
+		background-size: 400px 400px;
+	}
+
 	.resp-container {
 		position: relative;
 		overflow: hidden;
