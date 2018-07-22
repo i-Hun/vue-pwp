@@ -3,10 +3,10 @@
 		<div class="section schedule">
 			<b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
 	
-			<h1 class="title is-2">
+			<h2 class="title is-4">
 				{{calendarTitle}}
 				<a target="_blank" :href="sharngLink" class="button is-info">Subscribe</a>
-			</h1>
+			</h2>
 
 
 			<div class="subtitle" v-html="calendarDescription"></div>
@@ -189,24 +189,4 @@
 		break-inside: avoid;
 	}
 
-	.HSESummerSchool2018PythonCourse {
-		background-image: url("../assets/img/patterns/snakes.png");
-		background-repeat: repeat;
-		background-size: 400px 400px;
-	}
-
-	.resp-container {
-		position: relative;
-		overflow: hidden;
-		padding-top: 56.25%;
-		height: 500px;
-	}
-	.resp-iframe {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		border: 0;
-	}
 </style>

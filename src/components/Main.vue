@@ -152,7 +152,7 @@
 											<time :datetime="post.date">{{formatPostDate(post.date)}}</time>
 										</b-tooltip>
 									</small>
-									<router-link :to="{query: {post_id: post.id}}">
+									<router-link :to="{name: 'Post', params: {post_id: post.id}}">
 									{{ post.title }}
 									</router-link>
 								</div>
