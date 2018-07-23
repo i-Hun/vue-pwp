@@ -12,10 +12,10 @@
 
 
 <style scoped>
-.HSESummerSchool2018PythonCourse {
-	/*background-image: url("../assets/img/patterns/snakes.png");*/
+.SummerSchoolDubna2018 {
+	background-image: url("../assets/img/patterns/summer_school.png");
 	background-repeat: repeat;
-	background-size: 400px 400px;
+	/*background-size: 400px 400px;*/
 }
 </style>
 

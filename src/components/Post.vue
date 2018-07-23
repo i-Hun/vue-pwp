@@ -15,8 +15,8 @@
 			<div v-if="calendars && calendars.length" v-for="calendar in calendars">
 				<Calendar
 				:calendarId="calendar"
-				timeMin="2018-06-25"
-				timeMax="2018-09-25">
+				timeMin="2018-05-25"
+				timeMax="2050-09-25">
 				</Calendar>
 
 			</div>

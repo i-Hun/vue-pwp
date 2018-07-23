@@ -46,7 +46,7 @@
 							</div>
 						</div>
 					</li>
-					<li><small><i>Please add this schedule to your Google Calendar to recieve notifications on programme updates and have this programme on mobile devices. All learning materials will be attached to relevant events on this calendar. Use <a :href="sharngLink">this link</a> to share the programme.</i></small></li>
+					<!-- <li><small><i>Please add this schedule to your Google Calendar to recieve notifications on programme updates and have this programme on mobile devices. All learning materials will be attached to relevant events on this calendar. Use <a :href="sharngLink">this link</a> to share the programme.</i></small></li> -->
 				</ul>
 
 			</div>

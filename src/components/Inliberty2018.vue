@@ -1,10 +1,12 @@
 <template>
 	<div class="main">
-		<Calendar
-		calendarId="d97rg6bf60332qahmh9la0ar30@group.calendar.google.com"
-		timeMin="2018-08-12"
-		timeMax="2018-08-30">
-		</Calendar>
+		<section class="section">
+			<Calendar
+			calendarId="d97rg6bf60332qahmh9la0ar30@group.calendar.google.com"
+			timeMin="2018-06-12"
+			timeMax="2018-08-30">
+			</Calendar>
+		</section>
 	</div>
 </template>
 

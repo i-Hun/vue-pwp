@@ -5,6 +5,7 @@ import 'nprogress/nprogress.css';
 import Main from './components/Main.vue';
 import HSESummerSchool2018PythonCourse from './components/HSESummerSchool2018PythonCourse.vue';
 import Inliberty2018 from './components/Inliberty2018.vue';
+import SummerSchoolDubna2018 from './components/SummerSchoolDubna2018.vue';
 import Post from './components/Post.vue';
 
 
