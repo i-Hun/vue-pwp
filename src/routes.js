@@ -21,6 +21,11 @@ routes: [
 		component: HSESummerSchool2018PythonCourse,
 	},
 	{
+		path: '/courses/SummerSchoolDubna2018',
+		name:'SummerSchoolDubna2018',
+		component: SummerSchoolDubna2018,
+	},
+	{
 		path: '/courses/Inliberty2018',
 		name:'Inliberty2018',
 		component: Inliberty2018,

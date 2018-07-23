@@ -1,6 +1,6 @@
 <template name="calendar">
 	<div class="calendar">
-		<div class="section schedule">
+		<div class="schedule">
 			<b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
 	
 			<h2 class="title is-4">

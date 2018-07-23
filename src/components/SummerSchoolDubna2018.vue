@@ -1,8 +1,8 @@
 <template>
-	<div class="HSESummerSchool2018PythonCourse">
+	<div class="SummerSchoolDubna2018">
 		<section class="section">
 			<Calendar
-			calendarId="8e4enqv0aptevi6fkf726qmtjk@group.calendar.google.com"
+			calendarId="nkodf5abeqrpa4tm7k31b26n2k@group.calendar.google.com"
 			timeMin="2018-06-25"
 			timeMax="2018-08-25">
 			</Calendar>
@@ -13,7 +13,7 @@
 
 <style scoped>
 .HSESummerSchool2018PythonCourse {
-	background-image: url("../assets/img/patterns/snakes.png");
+	/*background-image: url("../assets/img/patterns/snakes.png");*/
 	background-repeat: repeat;
 	background-size: 400px 400px;
 }
@@ -25,7 +25,7 @@
 
 
 	export default {
-		name: "HSESummerSchool2018PythonCourse",
+		name: "SummerSchoolDubna2018",
 		components: {
 			Calendar
 		}

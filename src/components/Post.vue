@@ -9,7 +9,7 @@
 			
 
 			<div class="section content" v-if="getLengthHtmlFree(tumblrPosts.response.posts[0].body)">
-				<div v-html="tumblrPosts.response.posts[0].body"></div>
+				<div v-html="postBody"></div>
 			</div>
 			
 			<div v-if="calendars && calendars.length" v-for="calendar in calendars">
@@ -96,8 +96,8 @@
 			}
 		},
 		computed: {
-			post() {
-				return this.tumblrPosts.response.posts[0]
+			postBody() {
+				return this.tumblrPosts.response.posts[0].body.replace(/<p>{calendar_id:.*?com}(<br\/><\/p>)?/g, "");
 			},
 			calendars () {
 				const text = this.tumblrPosts.response.posts[0].body;
@@ -158,6 +158,9 @@
 
 .article-header, .article-content
 	padding: 20px
+
+.calendar
+	padding: 0 1.5rem
 
 .post-preview
 	margin-bottom: 50px

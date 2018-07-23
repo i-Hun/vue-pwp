@@ -66,6 +66,9 @@
 					<li>
 						<router-link :to="{name: 'Inliberty2018'}">InLibery Summer School</router-link>
 					</li>
+					<li>
+						<router-link :to="{name: 'SummerSchoolDubna2018'}">Summer School at Dubna</router-link>
+					</li>
 					<div class="year-div">2017</div>
 					<li>Educational project "The Summer School", workshop "Data Analysis in Social Sciences", July 25–August 7, 2017, Dubna, Russia.</li>
 					<li>Web Science Summer School WWSSS'17, 1–8 July, 2017, Saint Petersburg, Russia. . «Best Teamwork» award.</li>
