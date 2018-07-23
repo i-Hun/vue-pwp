@@ -2,12 +2,13 @@
 	<div>
 		<b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="true"></b-loading>
 
-		<div v-if="!isLoading" id="selected-post" name="selected-post" class="container">
-			<h1 v-if="tumblrPosts.response.posts[0].title" class="title is-spaced">
+		<div v-if="!isLoading" id="selected-post" name="selected-post" class="section container">
+			<h1 v-if="tumblrPosts.response.posts[0].title" class="title is-spaced post-title">
 				{{ tumblrPosts.response.posts[0].title }}
 			</h1>
 			
-			<div class="content" v-if="getLengthHtmlFree(tumblrPosts.response.posts[0].body)">
+
+			<div class="section content" v-if="getLengthHtmlFree(tumblrPosts.response.posts[0].body)">
 				<div v-html="tumblrPosts.response.posts[0].body"></div>
 			</div>
 			
@@ -19,13 +20,15 @@
 				</Calendar>
 
 			</div>
-
-			<div v-if="tumblrPosts.response.posts[0].tags && tumblrPosts.response.posts[0].tags.length" class="tags">
-				<span class="tag" v-for="tag in tumblrPosts.response.posts[0].tags">
-					<router-link :to="{name: 'Main', query: {tag: tag}}">
-						{{tag}}
-					</router-link>
-				</span>
+			
+			<div class="section">
+				<div v-if="tumblrPosts.response.posts[0].tags && tumblrPosts.response.posts[0].tags.length" class="tags">
+					<span class="tag" v-for="tag in tumblrPosts.response.posts[0].tags">
+						<router-link :to="{name: 'Main', query: {tag: tag}}">
+							{{tag}}
+						</router-link>
+					</span>
+				</div>
 			</div>
 		</div>
 
@@ -150,6 +153,8 @@
 
 <style lang="sass" scoped>
 
+.post-title
+	padding: 0 1.5rem
 
 .article-header, .article-content
 	padding: 20px

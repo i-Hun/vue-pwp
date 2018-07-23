@@ -13,37 +13,38 @@
 
 			<div class="schedule-blocks">
 				<ul>
-					<li class="day" v-for="(events, day) in events">
-						<h3 class="title is-5">July {{day}}</h3>
-						<div class="event" v-for="event in events">
-							<a class="event-title" target="_blank" :href="event.htmlLink">{{event.summary}}</a>
-							<div class="event-dates">
-								<span class="icon is-small">
-									<i class="mdi mdi-alarm"></i>
-								</span>
-								<span>{{formatEventDate(event.start.dateTime, event.end.dateTime)}}</span>
-							</div>
-							<div class="event-location" v-if="event.location">
-								<span class="icon is-small">
-									<i class="mdi mdi-map-marker"></i>
-								</span>
-								<span>
-									{{event.location}}
-								</span>
-							</div>
-							<div v-if="event.attachments && event.attachments.length" class="event-attachments">
-								<div class="attachments buttons">
-									<a class="button is-small" :href="attachment.fileUrl" target="_blank" v-for="attachment in event.attachments">
-										<span class="icon is-small">
-											<img :src="attachment.iconLink" alt="">
-										</span>
-										<span>{{attachment.title}}</span>
-									</a>
+					<li class="day" v-for="day in days">
+						<div class="day-wrapper">
+							<h3 class="title is-5">July {{day.dayTitle}}</h3>
+							<div class="event" v-for="event in day.events">
+								<a class="event-title" target="_blank" :href="event.htmlLink">{{event.summary}}</a>
+								<div class="event-dates">
+									<span class="icon is-small">
+										<i class="mdi mdi-alarm"></i>
+									</span>
+									<span>{{formatEventDate(event.start.dateTime, event.end.dateTime)}}</span>
 								</div>
+								<div class="event-location" v-if="event.location">
+									<span class="icon is-small">
+										<i class="mdi mdi-map-marker"></i>
+									</span>
+									<span>
+										{{event.location}}
+									</span>
+								</div>
+								<div v-if="event.attachments && event.attachments.length" class="event-attachments">
+									<div class="attachments buttons">
+										<a class="button is-small" :href="attachment.fileUrl" target="_blank" v-for="attachment in event.attachments">
+											<span class="icon is-small">
+												<img :src="attachment.iconLink" alt="">
+											</span>
+											<span>{{attachment.title}}</span>
+										</a>
+									</div>
+								</div>
+								<div class="event-description content" v-if="event.description && event.description.length" v-html="event.description"></div>
 							</div>
-							<div class="event-description content" v-if="event.description && event.description.length" v-html="event.description"></div>
 						</div>
-
 					</li>
 					<li><small><i>Please add this schedule to your Google Calendar to recieve notifications on programme updates and have this programme on mobile devices. All learning materials will be attached to relevant events on this calendar. Use <a :href="sharngLink">this link</a> to share the programme.</i></small></li>
 				</ul>
@@ -56,6 +57,7 @@
 <script>
 	import axios from 'axios';
 	import moment from 'moment';
+	import * as _ from 'lodash';
 
 	export default {
 		name: "calendar",
@@ -64,47 +66,64 @@
 			return {
 				calendarTitle: "",
 				calendarDescription: "",
-				events: [],
+				days: [],
 				isLoading: true
 			}
 		},
 		created() {
 			console.log("calendarId", this.calendarId);
 
+			function compareDates(a, b) {
+				var start = moment(a.start.dateTime || a.start.date);
+				
+				var end = moment(b.start.dateTime || b.start.date);
+
+				return start - end;
+			}
+
 			axios.get(`https://clients6.google.com/calendar/v3/calendars/${this.calendarId}/events?timeZone=Europe%2FMoscow&maxAttendees=1&maxResults=250&sanitizeHtml=true&timeMin=${this.timeMin}T00%3A00%3A00%2B03%3A00&timeMax=${this.timeMax}T00%3A00%3A00%2B03%3A00&key=AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs&supportsAttachments=true`)
 			.then(response => {
-				console.log(response);
-				var result = {};
-
 				this.calendarTitle = response.data.summary;
 				this.calendarDescription = response.data.description;
 
+				// создаём объект вида {"день или промежуток": [список событий]}
+				var resultDaysObj = {};
+				// и наполняем его
 				for (const event of response.data.items) {
 					console.log(event);
 
-					const day = moment(event.start.dateTime).format("D");
+					const startSameDay = moment(event.start.dateTime || event.start.date).format("D") === moment(event.end.dateTime || event.end.date).format("D")
 
-					if (day in result) {
-						result[day].push(event);
+					if (startSameDay) {
+						var day = moment(event.start.dateTime || event.start.date).format("D");
+					}
+					else {
+						var day = `${moment(event.start.dateTime || event.start.date).format("D")} - ${moment(event.end.dateTime || event.end.date).format("D")}`
+					}
+
+					if (day in resultDaysObj) {
+						resultDaysObj[day].push(event);
 					} else {
-						result[day] = []
-						result[day].push(event);
+						resultDaysObj[day] = []
+						resultDaysObj[day].push(event);
 					}
 				}
 
-				function compareDates(a, b) {
-					return moment(a.start.dateTime).format("HH") - moment(b.start.dateTime).format("HH");
+				// переделываем объект в список объектов, чтобы можно было отсортировать. 
+				var resultDaysArray = [];
+
+				for (const [day, events] of Object.entries(resultDaysObj)) {
+
+					const evt = events.sort(compareDates)
+					const dayObj = {
+						events: evt,
+						dayTitle: day
+					}
+					resultDaysArray.push(dayObj);
 				}
 
-				for (const [day, event] of Object.entries(result)) {
-					const evt = event.sort(compareDates)
-					console.log(evt)
-					result[day] = evt
-				}
-
-
-
-				this.events = result;
+				console.log("result", resultDaysArray)
+				this.days = _.sortBy(resultDaysArray, day => moment(day.events[0].start.dateTime || day.events[0].start.date));
 				this.isLoading = false
 			})
 			.catch(e => {
@@ -136,12 +155,13 @@
 <style scoped>
 
 	.day {
+		padding: 10px 0;
+	}
+
+	.day-wrapper {
+		padding: 20px;
 		background-color: #fff;
 		box-shadow: 0 0 10px 3px #00000014;
-		margin-bottom: 20px;
-		/*border-radius: 2px;*/
-		padding: 20px;
-		margin-bottom: 20px;
 	}
 
 	.event {

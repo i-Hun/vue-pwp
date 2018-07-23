@@ -39,7 +39,7 @@
 							</span>
 						</b-tooltip>
 						{{conference.title}},
-						<small>{{formatConfDate(conference.date.start, conference.date.end)}}</small>,
+						<small>{{formatConfDate(conference.date.start, conference.date.end)}}</small>.
 					</li>
 				</ul>
 			</b-tab-item>
