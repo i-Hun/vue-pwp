@@ -10,6 +10,14 @@
 	</div>
 </template>
 
+<style scoped>
+.HSESummerSchool2018PythonCourse {
+	background-image: url("../assets/img/patterns/leaves.png");
+	background-repeat: repeat;
+	background-size: 400px 400px;
+}
+</style>
+
 <script>
 	import Calendar from "./Calendar.vue";
 
