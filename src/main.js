@@ -8,7 +8,6 @@ import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { ApolloLink } from 'apollo-link';
-import { setContext } from 'apollo-link-context';
 import { withClientState } from 'apollo-link-state';
 import { HttpLink } from 'apollo-link-http';
 import { RestLink } from 'apollo-link-rest';
@@ -41,7 +40,6 @@ const stateLink = withClientState({
   resolvers: {
     Mutation: {
       updateTags: (_, { newTags }, context) => {
-        console.log("Mutation updateTags", {_, newTags, context})
         const data = {
             selectedTags: newTags
         };
@@ -55,18 +53,14 @@ const stateLink = withClientState({
 const restLink = new RestLink({
     uri: "https://api.tumblr.com/v2/blog/ihun.tumblr.com",
     typePatcher: {
-        TumblrPosts: function (data, outerType, patchDeepe) {
-            console.log("TumblrPosts", data.response);
-            // data.response = data.response.map(function(el) {
-            //     return { __typename: "TumblrResponse", ...el }
-            // });
+        TumblrPosts: function (data) {
+
             data.response["__typename"] = "TumblrResponse";
             data.response.blog["__typename"] = "TumblrResponse";
 
             data.response.posts = data.response.posts.map(function(post) {
                 return { __typename: "TumblrPost", ...post }
             });
-            console.log("TumblrPosts return", data)
             return data;
         }
     },
@@ -83,7 +77,6 @@ const apolloClient = new ApolloClient({
     link: ApolloLink.from([stateLink, restLink, httpLink]),
     cache,
     connectToDevTools: true,
-    onError: (e) => { console.log(e.graphQLErrors) }
 })
 
 
