@@ -15,7 +15,7 @@
 				<ul>
 					<li class="day" v-for="day in days">
 						<div class="day-wrapper">
-							<h3 class="title is-5">July {{day.dayTitle}}</h3>
+							<h3 class="title is-5">{{day.dayTitle}}</h3>
 							<div class="event" v-for="event in day.events">
 								<a class="event-title" target="_blank" :href="event.htmlLink">{{event.summary}}</a>
 								<div class="event-dates">
@@ -87,18 +87,20 @@
 				this.calendarDescription = response.data.description;
 
 				// создаём объект вида {"день или промежуток": [список событий]}
-				var resultDaysObj = {};
+				var resultDaysObj = [];
 				// и наполняем его
 				for (const event of response.data.items) {
 					console.log(event);
 
-					const startSameDay = moment(event.start.dateTime || event.start.date).format("D") === moment(event.end.dateTime || event.end.date).format("D")
+					const startSameDay = moment(event.start.dateTime || event.start.date).format("D") ===
+										 moment(event.end.dateTime   || event.end.date).format("D");
 
 					if (startSameDay) {
-						var day = moment(event.start.dateTime || event.start.date).format("D");
+						var day = moment(event.start.dateTime || event.start.date).format("MMMM D");
 					}
 					else {
-						var day = `${moment(event.start.dateTime || event.start.date).format("D")} - ${moment(event.end.dateTime || event.end.date).format("D")}`
+						var day = `${moment(event.start.dateTime || event.start.date).format("MMMM D")} -
+								   ${moment(event.end.dateTime || event.end.date).format("MMMM D")}`
 					}
 
 					if (day in resultDaysObj) {
@@ -139,9 +141,6 @@
 				}
 				const diff = moment(end).diff(moment(start))
 				return `${startFormated} — ${endFormated}, ${moment(end).format("MMM Do")} (${moment.utc(diff).format("H:mm")})`;
-			},
-			getDay(s) {
-				return moment(s).format("D");
 			},
 		},
 		computed: {

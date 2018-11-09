@@ -93,18 +93,18 @@
 				<ul>
 					<div class="year-div">2018-2019</div>
 					<li>
-						Data Analysis with Python (Master’s programme; St. Petersburg School of Social Sciences and Humanities; programme "Modern Social Analysis"; 1 year, 4 module)
+						<router-link :to="{name: 'intro2Python_2018'}">Introduction to Programming for Data Analysis</router-link> (Master’s course; programmes "Big Data Analysis for Business, Economy, and Society" and "Human-Computer Interaction"; 1 year, 1 module).
 					</li>
 					<li>
-						Social Media Analytics (Bachelor’s programme; St. Petersburg School of Social Sciences and Humanities; programme "Sociology"; 4 year, 1, 2 module and 3 year, 1, 2 module)
+						Social Media Analytics (Bachelor’s programme; St. Petersburg School of Social Sciences and Humanities; programme "Sociology"; 4 year, 1, 2 module and 3 year, 1, 2 module).
 					</li>
 					<li>
-						Applications and Practice of Data Science (Minor; St.Petersburg School of Economics and Management; 3, 4 module)
+						<router-link :to="{name: 'DataAnalysisInSpecialEnviroments2018_2019'}">Practical programming and data analysis in special environments 2018-2019</router-link> (Master’s course; programme "Big Data Analysis for Business, Economy, and Society"; 1 year, 2, 3 modules).
 					</li>
+					<div class="year-div">2017-2018</div>
 					<li>
 						<router-link :to="{name: 'HSESummerSchool2018PythonCourse'}">Python for Social Science: Introduction to Programming Language</router-link> at HSE Summer school 2018
 					</li>
-					<div class="year-div">2017-2018</div>
 					<li>
 						Applications and Practice of Data Science (Bachelor’s programme; St. Petersburg School of Social Sciences and Humanities; 3 year, 3, 4 module)
 					</li>
